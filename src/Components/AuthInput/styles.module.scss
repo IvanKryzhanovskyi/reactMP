@@ -1,0 +1,30 @@
+.InputWrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  margin: 0 auto;
+
+  &:first-child {
+    margin-bottom: 20px;
+  }
+}
+
+.InputTitle {
+  margin-right: 20px;
+}
+
+.Valid {
+  border: 1px solid green;
+}
+
+.Invalid {
+  border: 1px solid red;
+}
+
+.Error {
+  position: absolute;
+  left: 105%;
+  white-space: nowrap;
+  color: red;
+}
