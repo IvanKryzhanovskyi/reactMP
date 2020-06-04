@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { LoginPage } from './pages/LoginPage'  
+import { CoursesPage, LoginPage } from './pages/';
+
 import './main.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <LoginPage/>
+    <LoginPage />
+    {/*<CoursesPage />*/}
   </React.StrictMode>,
   document.getElementById('root')
 );

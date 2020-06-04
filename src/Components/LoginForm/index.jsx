@@ -1,135 +1,148 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ErrorBanner, AuthInput, Button } from '../';
 import { validateInput, validateCredentials } from '../../utils';
 
 import styles from './styles.module.scss';
 
-export class LoginForm extends React.PureComponent {
-  state = {
-    nameFiled: {
-      fieldValue: '',
-      isFieldTouched: false,
-      isFieldCorrect: false,
-      isFieldEmpty: true,
-      invalidCredentialsError: false
-    },
-    passwordField: {
-      fieldValue: '',
-      isFieldTouched: false,
-      isFieldCorrect: false,
-      isFieldEmpty: true,
-      isFieldPassValidation: false
-    },
-    invalidCredentialsError: false
-  };
-
-  handleLoginChange = (value) => {
-    this.setState({
-      ...this.state,
+export const LoginForm = () => {
+  const [formData, setFormData] = useState({
       nameFiled: {
-        fieldValue: value
+        fieldValue: '',
+        isFieldTouched: false,
+        isFieldCorrect: false,
+        isFieldEmpty: true,
+        invalidCredentialsError: false
       },
-      invalidCredentialsError: false
-    });
-  };
-
-  handlePasswordChange = (value) => {
-    this.setState({
-      ...this.state,
       passwordField: {
+        fieldValue: '',
+        isFieldTouched: false,
+        isFieldCorrect: false,
+        isFieldEmpty: true,
+        isFieldPassValidation: false
+      },
+      invalidCredentialsError: false
+    }
+  );
+
+  const handleLoginChange = (value) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      nameFiled: {
+        ...prevState.nameFiled,
         fieldValue: value
       },
       invalidCredentialsError: false
-    });
+    }));
   };
 
-  handleNameValidation = (value) => {
+  const handlePasswordChange = (value) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      passwordField: {
+        ...prevState.passwordField,
+        fieldValue: value
+      },
+      invalidCredentialsError: false
+    }));
+
+  };
+
+  const handleNameValidation = (value) => {
     const {
       correct,
       empty,
       valid
     } = validateInput(value, 'name');
 
-    this.setState({
-      ...this.state,
+    setFormData(prevState => ({
+      ...prevState,
       nameFiled: {
+        ...prevState.nameFiled,
         fieldValue: value,
         isFieldTouched: true,
         isFieldCorrect: correct,
         isFieldEmpty: empty,
         isFieldPassValidation: valid
       }
-    });
+    }));
   };
 
-  handlePasswordValidation = (value) => {
+  const handlePasswordValidation = (value) => {
     const {
       correct,
       empty,
       valid
     } = validateInput(value, 'password');
-
-    this.setState({
-      ...this.state,
+    setFormData(prevState => ({
+      ...prevState,
       passwordField: {
+        ...prevState.passwordField,
         fieldValue: value,
         isFieldTouched: true,
         isFieldCorrect: correct,
         isFieldEmpty: empty,
         isFieldPassValidation: valid
       }
-    });
+    }));
   };
 
-  handleFormSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (validateCredentials(this.state.nameFiled.fieldValue, this.state.passwordField.fieldValue)) {
+    if (validateCredentials(formData.nameFiled.fieldValue, formData.passwordField.fieldValue)) {
       return alert('welcome Admin');
     }
-    this.setState({
-      ...this.status,
+    setFormData(prevState => ({
+      ...prevState,
       passwordField: {
-        fieldValue: ''
+        ...prevState.passwordField,
+        fieldValue: '',
+        isFieldTouched: false
       },
       invalidCredentialsError: true
-    });
+    }));
   };
 
-  render() {
+  const isButtonDisabled = () => {
+    const nameFieldCheck = !formData.nameFiled.isFieldEmpty && formData.nameFiled.isFieldTouched;
+    const passwordFieldCheck = !formData.passwordField.isFieldEmpty && formData.passwordField.isFieldTouched;
+    return !(nameFieldCheck && passwordFieldCheck);
+  };
 
-    const { nameFiled, passwordField, invalidCredentialsError } = this.state;
+  const { nameFiled, passwordField, invalidCredentialsError } = formData;
 
-    return (
-      <div className={styles.FormWrapper}>
-        {invalidCredentialsError && <div className={styles.ErrorBanner}>
-          <ErrorBanner errorText="Wrong login or Password" />
-        </div>
-        }
-        <form className={styles.Form}>
-          <div>
-            <div className={styles.FormInput}>
-              <AuthInput
-                inputName='Login'
-                onChangeHandler={this.handleLoginChange}
-                blurEventHandler={this.handleNameValidation}
-                inputData={nameFiled}
-              />
-              <AuthInput
-                inputType='password'
-                inputName='Password'
-                onChangeHandler={this.handlePasswordChange}
-                blurEventHandler={this.handlePasswordValidation}
-                inputData={passwordField}
-              />
-            </div>
-            <Button
-              clickHandler={this.handleFormSubmit}
-              buttonText='Login'
+  return (
+    <div className={styles.FormWrapper}>
+      {invalidCredentialsError && <div className={styles.ErrorBanner}>
+        <ErrorBanner errorText="Wrong login or Password" />
+      </div>
+      }
+      <form className={styles.Form}>
+        <div>
+          <div className={styles.FormInput}>
+            <AuthInput
+              inputName='Login'
+              onChangeHandler={handleLoginChange}
+              blurEventHandler={handleNameValidation}
+              inputData={nameFiled}
+            />
+            <AuthInput
+              inputType='password'
+              inputName='Password'
+              onChangeHandler={handlePasswordChange}
+              blurEventHandler={handlePasswordValidation}
+              inputData={passwordField}
             />
           </div>
-        </form>
-      </div>
-    );
-  }
-}
+          <Button
+            isDisabled={isButtonDisabled()}
+            clickHandler={handleFormSubmit}
+            buttonText='Login'
+          />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+

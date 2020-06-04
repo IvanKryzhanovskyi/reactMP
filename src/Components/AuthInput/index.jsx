@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { handleAuthInputStyles } from '../../utils';
 
 
-export const AuthInput = ({
+export const AuthInput = React.memo(function AuthInput({
   inputName,
   inputType = 'text',
   blurEventHandler,
@@ -16,8 +16,7 @@ export const AuthInput = ({
     isFieldEmpty,
     isFieldPassValidation
   }
-}) => {
-
+}) {
   const isEmptyError = isFieldEmpty && isFieldTouched;
   const isValidationError = !isEmptyError && (!isFieldPassValidation && isFieldTouched);
 
@@ -34,8 +33,7 @@ export const AuthInput = ({
       {isValidationError && <span className={styles.Error}>* incorrect</span>}
     </div>
   );
-
-};
+});
 
 AuthInput.propTypes = {
   inputName: PropTypes.string,

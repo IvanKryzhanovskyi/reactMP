@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 
-const nameFieldPatternRegEx = /^[a-zA-Z]+$/;
-const passwordFieldPatternRegEx = /^[a-zA-Z0-9\s]+$/;
+const nameCheckRegEx = /^[a-zA-Z]+$/;
+const passwordCheckRegEx = /^[a-zA-Z0-9\s]+$/;
 
-const validCredentials = {
-  validLogin: 'admin',
-  validPassword: 'admin'
+const correctCredentials = {
+  correctLogin: 'admin',
+  correctPassword: 'admin'
 };
 
 export const handleAuthInputStyles = ({ Input, Valid, Invalid }, isFieldCorrect, isFieldTouched) => {
@@ -14,6 +14,7 @@ export const handleAuthInputStyles = ({ Input, Valid, Invalid }, isFieldCorrect,
   } else if (isFieldCorrect) {
     return classNames(Input, Valid);
   }
+
   return classNames(Input, Invalid);
 
 };
@@ -24,10 +25,11 @@ export const validateInput = (value, type) => {
   let valid;
 
   if (type === 'name') {
-    valid = nameFieldPatternRegEx.test(value);
+    valid = nameCheckRegEx.test(value);
   } else {
-    valid = passwordFieldPatternRegEx.test(value);
+    valid = passwordCheckRegEx.test(value);
   }
+
   return {
     correct: (!isEmpty && valid),
     empty: isEmpty,
@@ -36,8 +38,7 @@ export const validateInput = (value, type) => {
 };
 
 export const validateCredentials = (login, password) => {
-  const { validLogin, validPassword } = validCredentials;
+  const { correctLogin, correctPassword } = correctCredentials;
 
-  return (login === validLogin) && (password === validPassword);
-
+  return (login === correctLogin) && (password === correctPassword);
 };
