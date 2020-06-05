@@ -1,12 +1,9 @@
 import classNames from 'classnames';
+import { createContext } from 'react';
 
 const nameCheckRegEx = /^[a-zA-Z]+$/;
 const passwordCheckRegEx = /^[a-zA-Z0-9\s]+$/;
 
-const correctCredentials = {
-  correctLogin: 'admin',
-  correctPassword: 'admin'
-};
 
 export const handleAuthInputStyles = ({ Input, Valid, Invalid }, isFieldCorrect, isFieldTouched) => {
   if (!isFieldTouched) {
@@ -14,7 +11,6 @@ export const handleAuthInputStyles = ({ Input, Valid, Invalid }, isFieldCorrect,
   } else if (isFieldCorrect) {
     return classNames(Input, Valid);
   }
-
   return classNames(Input, Invalid);
 
 };
@@ -29,7 +25,6 @@ export const validateInput = (value, type) => {
   } else {
     valid = passwordCheckRegEx.test(value);
   }
-
   return {
     correct: (!isEmpty && valid),
     empty: isEmpty,
@@ -37,8 +32,16 @@ export const validateInput = (value, type) => {
   };
 };
 
-export const validateCredentials = (login, password) => {
-  const { correctLogin, correctPassword } = correctCredentials;
+// const correctCredentials = {
+//   correctLogin: 'admin',
+//   correctPassword: 'admin'
+// };
 
-  return (login === correctLogin) && (password === correctPassword);
-};
+// export const validateCredentials = (login, password) => {
+//   const { correctLogin, correctPassword } = correctCredentials;
+//
+//   return (login === correctLogin) && (password === correctPassword);
+//
+// };
+
+export const AuthContext = createContext(null);

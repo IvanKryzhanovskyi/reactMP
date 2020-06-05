@@ -6,11 +6,15 @@ export const Button = ({ clickHandler, buttonText, isDisabled }) => (
   <button
     className={styles.Button}
     disabled={isDisabled}
-    onClick={(e) => clickHandler(e)}
+    onClick={clickHandler}
   >
     {buttonText}
   </button>
 );
+
+Button.defaultProps = {
+  isDisabled: false
+};
 
 Button.propTypes = {
   clickHandler: PropTypes.func,

@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CoursesPage, LoginPage } from './pages/';
-
+import { RouterImitation } from './components';
 import './main.scss';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <LoginPage />
-    {/*<CoursesPage />*/}
+    <RouterImitation />
   </React.StrictMode>,
   document.getElementById('root')
 );

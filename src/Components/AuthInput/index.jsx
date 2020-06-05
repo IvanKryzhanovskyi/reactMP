@@ -6,7 +6,7 @@ import { handleAuthInputStyles } from '../../utils';
 
 export const AuthInput = React.memo(function AuthInput({
   inputName,
-  inputType = 'text',
+  inputType,
   blurEventHandler,
   onChangeHandler,
   inputData: {
@@ -34,6 +34,10 @@ export const AuthInput = React.memo(function AuthInput({
     </div>
   );
 });
+
+AuthInput.defaultProps = {
+  inputType: 'text'
+};
 
 AuthInput.propTypes = {
   inputName: PropTypes.string,
